@@ -1,0 +1,50 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "Global YouTube Statistics.csv",
+      "format": {"type": "csv"}
+    },
+    "transform": [
+      {
+        "aggregate": [
+          {"op": "sum", "field": "channels", "as": "total_channels"}
+        ],
+        "groupby": ["country"]
+      }
+    ],
+    "width": 800,
+    "height": 600,
+    "title": "Channels per Country (Scaled by Population)",
+    "projection": {"type": "mercator"},
+    "layer": [
+      {
+        "data": {
+          "url": "https://raw.githubusercontent.com/username/repo/master/world-10m.json",
+          "format": {"type": "topojson", "feature": "countries"}
+        },
+        "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"},
+        "encoding": {}
+      },
+      {
+        "mark": {"type": "circle", "filled": true, "fillOpacity": 0.8, "stroke": "white"},
+        "encoding": {
+          "longitude": {"field": "longitude", "type": "quantitative"},
+          "latitude": {"field": "latitude", "type": "quantitative"},
+          "size": {
+            "field": "total_channels",
+            "type": "quantitative",
+            "scale": {"type": "sqrt"},
+            "title": "Total Channels (Scaled)"
+          },
+          "color": {
+            "value": "steelblue"
+          },
+          "tooltip": [
+            {"field": "country", "type": "nominal", "title": "Country"},
+            {"field": "total_channels", "type": "quantitative", "title": "Total Channels"}
+          ]
+        }
+      }
+    ]
+  }
+  
