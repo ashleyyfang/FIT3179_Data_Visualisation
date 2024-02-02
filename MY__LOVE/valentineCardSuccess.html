@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Will You Be My Valentine?</title>
+  <style>
+    body {
+      background-color: #fce6e6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    #card {
+      display: none; /* Initially hide the card */
+      background-color: #ffcccc;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      position: relative; /* Ensure positioning context for absolute elements */
+    }
+
+    h1 {
+      color: #810505;
+    }
+
+    #heart-container {
+      display: inline-block;
+      font-size: 150px; /* Adjust the size of the heart */
+      margin: 20px;
+      animation: heartbeat 1s infinite;
+      color: #8b0000; /* Dark red color for the heart */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes heartbeat {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    #yes-button, #no-button {
+      background-color: #d32f2f;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      position: absolute;
+      bottom: 20px; /* Adjust the position */
+    }
+
+    #no-button {
+      left: 20px; /* Initial position, adjusted to be on the left */
+      width: 80px; /* Fixed width */
+      height: 40px; /* Fixed height */
+    }
+
+    #yes-button {
+      right: 20px; /* Initial position, adjusted to be on the right */
+      width: 80px; /* Fixed width */
+      height: 40px; /* Fixed height */
+    }
+
+    .cloud-message {
+      position: absolute;
+      background-color: #ffffff;
+      padding: 10px;
+      width: 120px; /* Set a fixed width for the cloud message */
+      height: 30px; /* Set a fixed height for the cloud message */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: none;
+      bottom: 70px; /* Adjust the position */
+      left: 50%; /* Adjust the position */
+      transform: translateX(-50%);
+    }
+
+    .cloud-message::before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 15px solid #ffffff;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    p {
+      color: #333;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    #confirmation-message {
+      display: none;
+      color: #c40a71;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    #confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .heart-emoji {
+      position: absolute;
+      font-size: 20px; /* Adjust the size of the heart */
+      color: #ff0077; /* Heart color */
+      transform-origin: 50% 50%;
+      animation: heart-fall 2s ease-out infinite;
+    }
+
+    @keyframes heart-fall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    #envelope-container {
+      position: relative;
+      cursor: pointer;
+    }
+
+    #envelope {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #open-me-text {
+      position: absolute;
+      top: 110% ;
+      left: 60%;
+      transform: translateX(-50%);
+      font-size: 15px;
+      color: #eee7e7;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="card">
+    <h1>🎀 14-Feb-2024 🎀<br>Will You Be My Valentine?</h1>
+    <div id="heart-container">💗</div>
+    <button id="yes-button" onclick="showConfirmation()">Yes</button>
+    <button id="no-button" onclick="moveNoButton()">No</button>
+    <div class="cloud-message" id="try-again-message">Oops, Try Again!</div>
+    <p id="confirmation-message"><strong>💋💋💋Love U endlessly for saying YESSSSS!💋💋💋</strong> </p>
+    <div id="confetti-container"></div>
+  </div>
+  
+  <!-- Envelope Container -->
+  <div id="envelope-container">
+    <img id="envelope" src="envelope.jpg" alt="Envelope" onclick="showCard(event)">
+    <div id="open-me-text">                 CLICK TO OPEN</div>
+  </div>
+
+  <script>
+   function showCard(event) {
+    // Check if the click event is coming from the envelope image
+    var envelope = document.getElementById('envelope');
+    var openMeText = document.getElementById('open-me-text');
+    
+    if (event.currentTarget === envelope) {
+      // Remove the envelope image and open me text
+      envelope.remove();
+      openMeText.remove();
+
+      // Show the card when envelope is clicked
+      document.getElementById('card').style.display = 'block';
+
+      // Prevent the click event from propagating to the buttons inside the card
+      event.stopPropagation();
+    }
+  }
+
+    function showConfirmation() {
+      document.getElementById('confirmation-message').style.display = 'block';
+      document.getElementById('yes-button').style.display = 'none';
+      document.getElementById('no-button').style.display = 'none';
+      document.getElementById('try-again-message').style.display = 'none';
+      // Display heart emojis
+      displayHearts();
+    }
+
+    function displayHearts() {
+      var confettiContainer = document.getElementById('confetti-container');
+
+      for (var i = 0; i < 50; i++) {
+        var heart = document.createElement('div');
+        heart.className = 'heart-emoji';
+        heart.innerHTML = '🩷';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = Math.random() * 2 + 1 + 's';
+        confettiContainer.appendChild(heart);
+      }
+    }
+
+    function moveNoButton() {
+      var noButton = document.getElementById('no-button');
+      var cardWidth = document.getElementById('card').offsetWidth;
+      var cardHeight = document.getElementById('card').offsetHeight;
+
+      // Set new random position
+      var newLeft = Math.random() * cardWidth;
+      var newTop = Math.random() * cardHeight;
+
+      // Apply the new position
+      noButton.style.left = newLeft + 'px';
+      noButton.style.top = newTop + 'px';
+
+      // Show 'Oops, Try Again!' message below the No button
+      var cloudMessage = document.getElementById('try-again-message');
+      cloudMessage.style.display = 'block';
+      cloudMessage.style.left = newLeft + 40 + 'px'; // Adjust position
+      cloudMessage.style.top = newTop + 80 + 'px'; // Adjust position
+
+      // Hide the message after a short delay (you can adjust the duration)
+      setTimeout(function() {
+        cloudMessage.style.display = 'none';
+      }, 3000); // 2000 milliseconds (2 seconds)
+    }
+  </script>
+</body>
+</html>
